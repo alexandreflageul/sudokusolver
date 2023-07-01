@@ -123,7 +123,8 @@ def turn_list_of_array_to_matrice_of_integer(list_of_array):
         #plt.figure()
         #plt.imshow(i)
         #plt.show()
-        if np.mean(i) < 3 :
+
+        if np.mean(i) < 10 :
             value = "0"
         else:
             pred = model_identify_digits.predict(i.reshape(1,28,28,1))
@@ -133,6 +134,7 @@ def turn_list_of_array_to_matrice_of_integer(list_of_array):
         cases.append(str(value))
         
         st.write("--------------------")
+        st.write(np.mean(i))
         st.image(i)
         st.write(value)
     
