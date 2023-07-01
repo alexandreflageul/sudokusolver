@@ -15,7 +15,7 @@
 ## modules
 
 import streamlit as st
-from PIL import Image
+from PIL import Image, ImageFont, ImageDraw
 import tensorflow as tf
 #import split_image
 import numpy as np
