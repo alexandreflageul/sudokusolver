@@ -144,7 +144,7 @@ def turn_list_of_array_to_matrice_of_integer(list_of_array):
 
 def generate_sudoku_solution_image(sudoku_solution_array):
 
-    oneliner_sudoku_solution = "".join([ "".join(list(map(str, i))) for i in sudoku_solution_array ])
+    oneliner_sudoku_solution = "".join([str(value) for row in sudoku_solution_array for value in row ])
     
     pixel = 860
     image = Image.new("RGB",size=(pixel+10, pixel+10), color="black")
