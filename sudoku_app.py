@@ -114,7 +114,7 @@ def standardize_picture(image):
 
 def turn_list_of_array_to_matrice_of_integer(list_of_array):
     # load digits identification model
-    path_to_model_digits_identification = "models/digits_identification_model.h5"
+    path_to_model_digits_identification = "models/new_digits_identification_model.h5"
     model_identify_digits = tf.keras.models.load_model(path_to_model_digits_identification)
 
     cases = []
