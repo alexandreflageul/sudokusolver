@@ -129,7 +129,7 @@ def turn_list_of_array_to_matrice_of_integer(list_of_array):
             pred = model_identify_digits.predict(i.reshape(1,28,28,1))
             value = np.argmax(pred)
             probability = np.max(pred[0])
-            print(value, probability, np.mean(i))
+            #print(value, probability, np.mean(i))
         cases.append(value)
         
         st.write("--------------------")
@@ -152,7 +152,7 @@ def generate_sudoku_solution_image(sudoku_solution_array):
     bloc = Image.new("RGB", size=(bloc_size, bloc_size), color="white")
 
     rows, columns = range(9), range(9)
-    font = ImageFont.truetype("font/times.ttf", 75)
+    font = ImageFont.truetype("font/times-new-roman.ttf", 75)
 
     for r in rows:
         for c in columns:
@@ -204,7 +204,7 @@ if picture != None:
     # turn sudoku standardized image into oneliner sudoku
     #array_sudoku = convert_processed_image_to_array_sudoku(processed_image)
     array_sudoku = turn_list_of_array_to_matrice_of_integer(processed_image)
-    print(array_sudoku)
+    #print(array_sudoku)
 
     # solve sudoku
     ## pure python solving sudoku
