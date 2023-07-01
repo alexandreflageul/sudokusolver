@@ -125,13 +125,13 @@ def turn_list_of_array_to_matrice_of_integer(list_of_array):
         #plt.show()
 
         if np.mean(i) < 20 :
-            value = "0"
+            value = 0
         else:
             pred = model_identify_digits.predict(i.reshape(1,28,28,1))
             value = np.argmax(pred)
             probability = np.max(pred[0])
             print(value, probability, np.mean(i))
-        cases.append(str(value))
+        cases.append(value)
         
         st.write("--------------------")
         st.write(np.mean(i))
@@ -250,7 +250,8 @@ if picture != None:
     # turn sudoku standardized image into oneliner sudoku
     #array_sudoku = convert_processed_image_to_array_sudoku(processed_image)
     array_sudoku = turn_list_of_array_to_matrice_of_integer(processed_image)
-    st.write(print(array_sudoku))
+    print(array_sudoku)
+
     # solve sudoku
     ## pure python solving sudoku
     sudoku_solution = solving_sudoku(array_sudoku) # return a numpy array of the solution dimension (9x9)
