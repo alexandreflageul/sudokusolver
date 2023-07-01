@@ -124,7 +124,7 @@ def turn_list_of_array_to_matrice_of_integer(list_of_array):
         #plt.imshow(i)
         #plt.show()
 
-        if np.mean(i) < 10 :
+        if np.mean(i) < 20 :
             value = "0"
         else:
             pred = model_identify_digits.predict(i.reshape(1,28,28,1))
