@@ -118,16 +118,23 @@ def turn_list_of_array_to_matrice_of_integer(list_of_array):
     model_identify_digits = tf.keras.models.load_model(path_to_model_digits_identification)
 
     cases = []
-    for img in list_of_array:
-        # load and preprocess the input image of case as numpy array
-        image = img.reshape(1, 28, 28, 1)
-    
-        # now realise the prediction and record it
-        prediction = model_identify_digits.predict(image)
-        value = np.argmax(prediction)
-        probability = np.max(prediction[0])
-        if value == 1 and probability < 0.3: cases.append("0")
-        else: cases.append(str(value))
+
+    for i in list_of_array:
+        #plt.figure()
+        #plt.imshow(i)
+        #plt.show()
+        if np.mean(i) < 3 :
+            value = "0"
+        else:
+            pred = model_identify_digits.predict(i.reshape(1,28,28,1))
+            value = np.argmax(pred)
+            probability = np.max(pred[0])
+            print(value, probability, np.mean(i))
+        cases.append(str(value))
+        
+        st.write("--------------------")
+        st.image(i)
+        st.write(value)
     
     # now, we have a sudoku that is a list of digits between 0 and 9, we convert into numpy array with a specific shape
     return np.array(cases).reshape(9, 9)
@@ -237,8 +244,6 @@ if picture != None:
     # get the picture, extract sudoku and turn it into oneliner
     processed_image = standardize_picture(image_name) # return a list of image in numpy array, each with a size of (28, 28)
                                 # to not modify the next step, it should return an Image of size 860*860
-    for img in processed_image:
-        st.image(img)
 
     # turn sudoku standardized image into oneliner sudoku
     #array_sudoku = convert_processed_image_to_array_sudoku(processed_image)
