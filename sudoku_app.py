@@ -124,8 +124,7 @@ def turn_list_of_array_to_matrice_of_integer(list_of_array):
         #plt.imshow(i)
         #plt.show()
 
-        if np.mean(i) < 20 :
-            value = 0
+        if np.mean(i) < 20 : value = 0
         else:
             pred = model_identify_digits.predict(i.reshape(1,28,28,1))
             value = np.argmax(pred)
@@ -141,56 +140,6 @@ def turn_list_of_array_to_matrice_of_integer(list_of_array):
     # now, we have a sudoku that is a list of digits between 0 and 9, we convert into numpy array with a specific shape
     return np.array(cases).reshape(9, 9)
 
-
-
-def convert_processed_image_to_array_sudoku(picture):
-    # load digits identification model
-    path_to_model_digits_identification = "models/digits_identification_model.h5"
-    model_identify_digits = tf.keras.models.load_model(path_to_model_digits_identification)
-
-    # to generate unique folder name
-    out = "".join(str(datetime.now()).replace("-", " ").replace(":"," ").replace(".", " ").split(" "))
-    output_dir = f"working_directory/{out}/"
-
-    # save image into folder working_directory
-    img = Image.open(picture)
-    image_name = f"{output_dir[:-1]}.png"
-    img.save(image_name, image_name.split(".")[-1].upper())
-
-    # split image that have been saved to isolate each cases
-    split_image.split_image(image_name, 9, 9, should_square=True, should_cleanup=False, output_dir=output_dir)
-    folder = os.listdir(output_dir)
-    
-    # now load every sudoku cases (every file name) in the right order
-    all_image_cases = []
-    for img in folder:
-        if not "squared" in img:
-            index = int(img.split(".")[0].split("_")[-1])
-            all_image_cases.append((index, img))
-    sorted(all_image_cases) # to get images in the right order (left to right, top to bottom)
-
-    cases = []
-    for _, img in all_image_cases:
-        # load and preprocess the input image
-        image = Image.open(output_dir + img)
-        image = image.crop((18, 18, 76, 76))
-        image = image.resize((28,28))
-        image = image.convert("L")
-        image = np.array(image)
-        # the next line is important, because it allows to reverse the image colors (white to black, black to white)
-        # because the neural networl model has been train on the MNIST data, which are black background and white digits
-        image = (image*(-1))+255 # OK parfait, car si on fait img-255*-1, alors on ne transforme pas les faibles valeur en forte valeur, la commande fait un z / nz et les 0 reste zero, les 1 restent 1 etc...
-        image = image.reshape(1, 28, 28, 1)
-    
-        # now realise the prediction and record it
-        prediction = model_identify_digits.predict(img)
-        value = np.argmax(prediction)
-        probability = np.max(prediction[0])
-        if value == 1 and probability < 0.3: cases.append("0")
-        else: cases.append(str(value))
-    
-    # now, we have a sudoku that is a list of digits between 0 and 9, we convert into nupy array with a specific shape
-    return np.array(cases).reshape(9, 9)
 
 
 def generate_sudoku_solution_image(sudoku_solution_array):
@@ -215,8 +164,13 @@ def generate_sudoku_solution_image(sudoku_solution_array):
     return image
 
 def solving_sudoku(sudoku_array):
-    solution = sudoku_solver(sudoku_array)
-    return solution
+    try:
+        return sudoku_solver(sudoku_array)
+    except Exception:
+        st.write("--------------------")
+        st.write("It seams that no solution were found, probably it's because ilage analysis fail to correctly identify digits, Please try again.")
+        st.write("--------------------")
+        return 
 
 
 ## General structure
