@@ -7,9 +7,7 @@
 # Author: Alexandre Flageul
 # Sources: 
 #   - preprocessing of the input image: https://www.kaggle.com/code/karnikakapoor/sudoku-solutions-from-image-computer-vision
-#   - digits identification model: 
 #   - sudoku solver python code: https://github.com/aurbano/sudoku_py
-#   - sudoku data: 
 #   - perspective of evolution: https://icosys.ch/sudoku-dataset
 
 ## modules
@@ -105,11 +103,12 @@ def standardize_picture(image):
         #imagewrap = cv2.cvtColor(imagewrap, cv2.COLOR_BGR2GRAY)
         imagewrap = preprocess(imagewrap)
 
-    # split standardized sudoku image
-    sudoku_cell = splitcells(imagewrap)
+        # split standardized sudoku image
+        sudoku_cell = splitcells(imagewrap)
 
-    # crop sudoku cells
-    return CropCell(sudoku_cell) # list of numpy array of size (28,28)
+        # crop sudoku cells
+        return CropCell(sudoku_cell) # list of numpy array of size (28,28)
+    else: raise Exception("Problem with input image")
 
 
 def turn_list_of_array_to_matrice_of_integer(list_of_array):
