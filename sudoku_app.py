@@ -131,10 +131,10 @@ def turn_list_of_array_to_matrice_of_integer(list_of_array):
             #print(value, probability, np.mean(i))
         cases.append(value)
         
-        st.write("--------------------")
-        st.write(np.mean(i))
-        st.image(i)
-        st.write(value)
+        #st.write("--------------------")
+        #st.write(np.mean(i))
+        #st.image(i)
+        #st.write(value)
     
     # now, we have a sudoku that is a list of digits between 0 and 9, we convert into numpy array with a specific shape
     return np.array(cases).reshape(9, 9)
@@ -164,7 +164,8 @@ def generate_sudoku_solution_image(sudoku_solution_array):
 
 def solving_sudoku(sudoku_array):
     try:
-        return sudoku_solver(sudoku_array)
+        solution = sudoku_solver(sudoku_array)
+        return solution
     except Exception:
         st.write("--------------------")
         st.write("It seams that no solution were found, probably it's because ilage analysis fail to correctly identify digits, Please try again.")
@@ -179,7 +180,7 @@ path_to_icon = ""
 st.set_page_config(page_title="sudoku_solver", layout="wide", page_icon=path_to_icon)
 
 st.title("Sudoku solver!!")
-st.markdown("Take a picture, and that's it!")
+st.header("Take a picture, and that's it!")
 
 st.divider()
 label = "Take a picture of your sudoku"
@@ -201,9 +202,7 @@ if picture != None:
                                 # to not modify the next step, it should return an Image of size 860*860
 
     # turn sudoku standardized image into oneliner sudoku
-    #array_sudoku = convert_processed_image_to_array_sudoku(processed_image)
     array_sudoku = turn_list_of_array_to_matrice_of_integer(processed_image)
-    #print(array_sudoku)
 
     # solve sudoku
     ## pure python solving sudoku
@@ -216,6 +215,7 @@ if picture != None:
 if picture != None:
     st.divider()
     label = "Here is the solution"
+    st.header(label)
     st.image(image_solution)
     st.divider()
 
